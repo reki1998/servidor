@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survive.infection - Inicio</title>
+    <!-- Fuente moderna estilo Gaming -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Vinculo al archivo de estilos externos -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Librería SkinView3D para la credencial interactiva -->
+    <script src="https://unpkg.com/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
+
+    <style>
+        /* Estilos específicos para la cuenta regresiva y formularios de index */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .countdown-box {
+            background: rgba(255, 71, 71, 0.15);
+            border: 1px solid rgba(255, 71, 71, 0.4);
+            border-radius: 8px;
+            padding: 15px 20px;
+            min-width: 80px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .countdown-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ff4747;
+            text-shadow: 0 0 10px rgba(255, 71, 71, 0.5);
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #aaa;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .postulation-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #ffcccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input, .form-group select {
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 71, 71, 0.3);
+            background: rgba(10, 10, 15, 0.8);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #ff4747;
+            box-shadow: 0 0 10px rgba(255, 71, 71, 0.4);
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .download-card {
+            background: rgba(20, 20, 25, 0.8);
+            border: 1px solid rgba(255, 71, 71, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .download-card:hover {
+            transform: translateY(-4px);
+            border-color: #ff4747;
+        }
+
+        /* Estilo interactivo para el botón de Discord */
+        .btn-discord {
+            transition: all 0.3s ease !important;
+        }
+        
+        .btn-discord:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.6) !important;
+        }
+
+        @media (max-width: 768px) {
+            .countdown-container {
+                gap: 10px;
+            }
+            .countdown-box {
+                min-width: 65px;
+                padding: 10px;
+            }
+            .countdown-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CANVAS Y OVERLAY DE AMBIENTACIÓN -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="ambient-overlay"></div>
+
+    <!-- NOTIFICACIÓN TOAST -->
+    <div id="toast" class="toast">¡IP copiada al portapapeles!</div>
+
+    <header>
+    <a href="index.html" class="logo-container">
+        <img src="creepercito.jpg" alt="Logo Creepercito" class="logo-img">
+        <div class="logo">Survive.infection</div>
+    </a>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="Reglas.html">Reglas y Metas</a></li>
+            <li><a href="descargas.html">Descargas</a></li>
+            <li><a href="https://discord.gg/KRCZfFrRG" target="_blank" rel="noopener noreferrer" class="btn-discord">Discord</a></li>
+        </ul>
+    </nav>
+</header>
+
+    <!-- SECCIÓN HERO / PRINCIPAL -->
+    <section class="hero">
+        <h1>Survive.infection</h1>
+        <div class="status-badge">🔴 Servidor en Desarrollo (Vacaciones)</div>
+
+        <!-- CAJA INTERACTIVA PRINCIPAL (CON IP) -->
+        <div class="hero-card" id="heroCard" onclick="copiarIP('survive.infection.mcvps.io')">
+            <div class="hero-card-header">
+                <img src="creeper.jpg" alt="Creeper 3D" class="creeper-img">
+                <div>
+                    <h3 class="highlight-subtitle">¡Preparate para el Apocalipsis!</h3>
+                    <p>Un servidor hardcore de zombies pensado exclusivamente para viciar con amigos en estas vacaciones. Sin Pay-to-Win, pura supervivencia.</p>
+                </div>
+            </div>
+            <hr>
+            <div class="hero-intro">
+                <h3>IP del Servidor (Click para copiar):</h3>
+                <p style="font-family: monospace; font-size: 1.2rem; color: #ff6b6b; font-weight: bold;">survive.infection.mcvps.io</p>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="Reglas.html" class="btn btn-primary">Ver Reglas y Clanes</a>
+            <a href="video.html" class="btn btn-secondary">🎥 Ver Tráiler</a>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE CUENTA REGRESIVA -->
+    <section class="features" style="padding-top: 0;">
+        <div class="card" style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <h3 class="highlight-subtitle" style="font-size: 1.6rem; margin-bottom: 10px;">⏳ Cuenta Regresiva para la Apertura</h3>
+            <p>El apocalipsis se desata en:</p>
+            
+            <div class="countdown-container" id="countdown">
+                <div class="countdown-box">
+                    <div class="countdown-number" id="days">05</div>
+                    <div class="countdown-label">Días</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="hours">12</div>
+                    <div class="countdown-label">Horas</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="minutes">45</div>
+                    <div class="countdown-label">Minutos</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="seconds">30</div>
+                    <div class="countdown-label">Segundos</div>
+                </div>
+            </div>
+            <p style="font-size: 0.85rem; color: #888;">*(Fecha estimada de apertura para el inicio de vacaciones)*</p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE POSTULACIÓN / REGISTRO PREVIO Y CREDENCIAL 3D -->
+    <section class="features" style="padding-top: 0;">
+        <div class="section-title">Inscripción de Sobrevivientes</div>
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+            <h3 style="text-align: center; margin-bottom: 15px;">📝 Anótate para el Arranque</h3>
+            <p style="text-align: center; margin-bottom: 25px;">Deja tu nick oficial y rol preferido para asegurar tu lugar en el servidor (Solo 1 registro por dispositivo).</p>
+            
+            <form class="postulation-form" onsubmit="enviarPostulacion(event)">
+                <div class="form-group">
+                    <label for="postNick">Nick de Minecraft:</label>
+                    <input type="text" id="postNick" placeholder="Ej: Vqztx" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="postRol">Rol en el Escuadrón:</label>
+                    <select id="postRol">
+                        <option value="combatiente">Combatiente / Frontline</option>
+                        <option value="ingeniero">Ingeniero / Constructor de Bases</option>
+                        <option value="medico">Médico / Proveedor de Recursos</option>
+                        <option value="explorador">Explorador de Dungeons</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="postDiscord">Usuario de Discord (Opcional):</label>
+                    <input type="text" id="postDiscord" placeholder="Ej: agustin#1234" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 10px; width: 100%;">Confirmar Postulación</button>
+            </form>
+            
+            <div id="postResponse" style="text-align: center; margin-top: 15px; color: #4eff4e; font-weight: bold; display: none;"></div>
+
+            <!-- CREDENCIAL INTERACTIVA DE SUPERVIVIENTE -->
+            <div id="survivorIdCard" style="display: none; margin-top: 25px; background: rgba(15, 15, 20, 0.95); border: 2px solid #ff4747; border-radius: 12px; padding: 25px; box-shadow: 0 0 30px rgba(255, 71, 71, 0.4); text-align: left; position: relative; overflow: hidden;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,71,71,0.3); padding-bottom: 10px; margin-bottom: 15px;">
+                    <span style="font-size: 0.8rem; letter-spacing: 2px; color: #ff4747; font-weight: 900;">⚠️ SURVIVE.INFECTION // ID CARD</span>
+                    <span style="font-size: 0.75rem; background: #ff4747; color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: bold;">OFICIAL</span>
+                </div>
+                
+                <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                    <div style="width: 120px; height: 160px; background: rgba(0,0,0,0.6); border: 1px solid #ff4747; border-radius: 8px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                        <canvas id="card_skin_container" style="width: 120px; height: 160px; cursor: grab;"></canvas>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <p style="font-size: 0.75rem; color: #aaa; margin: 0; text-transform: uppercase;">Sobreviviente:</p>
+                        <h3 id="cardNick" style="font-size: 1.5rem; color: #fff; margin: 0 0 10px 0; font-weight: 900;">-</h3>
+                        
+                        <p style="font-size: 0.75rem; color: #aaa; margin: 0; text-transform: uppercase;">Rol Asignado:</p>
+                        <p id="cardRol" style="font-size: 1.1rem; color: #ff6b6b; margin: 0 0 10px 0; font-weight: bold; text-transform: uppercase;">-</p>
+                        
+                        <p style="font-size: 0.75rem; color: #aaa; margin: 0; text-transform: uppercase;">Estado:</p>
+                        <p style="font-size: 0.9rem; color: #4eff4e; margin: 0; font-weight: bold;">🟢 ACTIVO PARA VACACIONES</p>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button type="button" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 15px; width: 100%;" onclick="alert('¡Credencial guardada en tu navegador! Nos vemos en la apertura.')">🪪 Credencial Registrada</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE DESCARGAS Y UTILIDADES -->
+    <section class="features" style="padding-top: 0;">
+        <div class="section-title">Zona de Descargas</div>
+        <div class="card" style="max-width: 1000px; margin: 0 auto;">
+            <h3 style="margin-bottom: 10px;">📦 Archivos y Utilidades del Servidor</h3>
+            <p style="margin-bottom: 20px;">Para evitar problemas de versiones o que a tus compañeros les falten texturas/mods, descarga los elementos esenciales por acá:</p>
+            
+            <div class="download-grid">
+                <div class="download-card">
+                    <h4 style="color: #ff4747; margin-bottom: 10px;">⚙️ Pack de Mods (Cliente)</h4>
+                    <p style="font-size: 0.85rem; margin-bottom: 15px;">Optimización (Sodium) y mecánicas del servidor de zombies listos para instalar.</p>
+                    <a href="descargas.html" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 15px;">Ir a Descargas</a>
+                </div>
+                <div class="download-card">
+                    <h4 style="color: #ff4747; margin-bottom: 10px;">🗺️ Guía de Instalación</h4>
+                    <p style="font-size: 0.85rem; margin-bottom: 15px;">Paso a paso rápido para configurar tu launcher (Modrinth/CurseForge) sin errores.</p>
+                    <a href="Reglas.html" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 15px;">Ver Guía</a>
+                </div>
+                <div class="download-card">
+                    <h4 style="color: #ff4747; margin-bottom: 10px;">💬 Discord Oficial</h4>
+                    <p style="font-size: 0.85rem; margin-bottom: 15px;">Unite al canal de voz del grupo para coordinar las partidas durante las vacaciones.</p>
+                    <a href="https://discord.gg/KRCZfFrRG" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-discord" style="font-size: 0.85rem; padding: 8px 15px; background: #5865F2; border-color: #5865F2;">Unirse al Discord</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Survive.infection. Creado para jugar con amigos en vacaciones. No afiliado con Mojang AB.</p>
+    </footer>
+
+    <!-- SCRIPTS DE SOPORTE -->
+    <script>
+        const countDownDate = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if(document.getElementById("days")) {
+                document.getElementById("days").innerText = String(days).padStart(2, '0');
+                document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+            }
+        }, 1000);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const yaRegistrado = localStorage.getItem('survive_postulacion_enviada');
+            if (yaRegistrado) {
+                bloquearFormulario(JSON.parse(yaRegistrado));
+            }
+        });
+
+        function enviarPostulacion(event) {
+            event.preventDefault();
+            
+            if (localStorage.getItem('survive_postulacion_enviada')) {
+                alert("⚠️ Ya tienes una inscripción registrada en este dispositivo.");
+                return;
+            }
+
+            const nick = document.getElementById('postNick').value.trim();
+            const rol = document.getElementById('postRol').value;
+
+            const datosInscripcion = { nick, rol };
+
+            localStorage.setItem('survive_postulacion_enviada', JSON.stringify(datosInscripcion));
+            localStorage.setItem('survive_nick_registrado', nick);
+
+            bloquearFormulario(datosInscripcion);
+        }
+
+        function bloquearFormulario(datos) {
+            const form = document.querySelector('.postulation-form');
+            if(form) {
+                form.style.opacity = "0.5";
+                form.style.pointerEvents = "none";
+            }
+
+            const responseDiv = document.getElementById('postResponse');
+            if(responseDiv) {
+                responseDiv.style.display = 'block';
+                responseDiv.innerHTML = `✅ Inscripción registrada correctamente.`;
+            }
+
+            if (typeof mostrarCredencialID === 'function') {
+                mostrarCredencialID(datos.nick, datos.rol);
+            }
+        }
+    </script>
+    <!-- Vinculo al archivo de JavaScript externo -->
+    <script src="script.js"></script>
+</body>
+</html>

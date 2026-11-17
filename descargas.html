@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survive.infection - Descargas y Guía</title>
+    <!-- Fuente moderna estilo Gaming -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Vinculo al archivo de estilos externos -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .content-section {
+            padding: 120px 20px 60px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .downloads-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .download-box {
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(255, 71, 71, 0.3);
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .download-box:hover {
+            border-color: #ff4747;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255, 42, 42, 0.3);
+        }
+
+        .download-box h3 {
+            font-size: 1.6rem;
+            color: #ff4747;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .download-box p {
+            color: #ddd;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .download-box ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .download-box ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .download-box ul li::before {
+            content: "•";
+            color: #ff4747;
+            position: absolute;
+            left: 0;
+            font-size: 1.3rem;
+            line-height: 1rem;
+        }
+
+        .badge-type {
+            display: inline-block;
+            background: rgba(255, 71, 71, 0.2);
+            border: 1px solid #ff4747;
+            color: #ff6b6b;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            width: fit-content;
+        }
+
+        /* Estilo interactivo para el botón de Discord */
+        .btn-discord {
+            transition: all 0.3s ease !important;
+        }
+        
+        .btn-discord:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.6) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CANVAS Y OVERLAY DE AMBIENTACIÓN -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="ambient-overlay"></div>
+
+    <header>
+    <a href="index.html" class="logo-container">
+        <img src="creepercito.jpg" alt="Logo Creepercito" class="logo-img">
+        <div class="logo">Survive.infection</div>
+    </a>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="Reglas.html">Reglas y Metas</a></li>
+            <li><a href="descargas.html">Descargas</a></li>
+            <li><a href="https://discord.gg/KRCZfFrRG" target="_blank" rel="noopener noreferrer" class="btn-discord">Discord</a></li>
+        </ul>
+    </nav>
+    </header>
+
+    <!-- SECCIÓN DE CONTENIDO -->
+    <section class="content-section">
+        <h2 class="section-title">Zona de Descargas del Servidor</h2>
+        <p style="text-align: center; color: #aaa; margin-bottom: 30px;">Selecciona el método de instalación correspondiente a tu tipo de cuenta de Minecraft:</p>
+
+        <div class="downloads-layout">
+            
+            <!-- CAJA 1: JUGADORES PREMIUM (CURSEFORGE) -->
+            <div class="download-box">
+                <div>
+                    <span class="badge-type">⭐ Cuentas Premium</span>
+                    <h3>Instalación CurseForge</h3>
+                    <p>Ideal si cuentas con el juego original y prefieres una gestión automática de perfiles y actualizaciones de mods.</p>
+                    <ul>
+                        <li>Descarga e instala la app oficial de <strong>CurseForge</strong> en tu PC.</li>
+                        <li>Busca nuestro modpack o importa el perfil oficial con un clic.</li>
+                        <li>Inicia sesión con tu cuenta de Microsoft y conéctate directo al servidor.</li>
+                    </ul>
+                </div>
+                <a href="https://www.curseforge.com/download" target="_blank" class="btn btn-primary" style="text-align: center;">Ir a CurseForge</a>
+            </div>
+
+            <!-- CAJA 2: JUGADORES NO PREMIUM (MEDIAFIRE) -->
+            <div class="download-box">
+                <div>
+                    <span class="badge-type" style="background: rgba(78, 255, 78, 0.2); border-color: #4eff4e; color: #6bff6b;">🔓 Cuentas No Premium / Alternativas</span>
+                    <h3>Instalación MediaFire (.ZIP)</h3>
+                    <p>Diseñado para launchers alternativos (TlLauncher, SKLauncher, etc.). Descargas los archivos y los ubicas en tu carpeta del juego.</p>
+                    <ul>
+                        <li>Descarga el archivo <strong>.ZIP</strong> directamente desde nuestra carpeta oficial en MediaFire.</li>
+                        <li>Descomprime el contenido dentro de tu carpeta <code>.minecraft</code> (o usa Prism Launcher para importar el zip).</li>
+                        <li>Abre tu launcher habitual, selecciona la versión correcta y entra al servidor.</li>
+                    </ul>
+                </div>
+                <a href="https://app.mediafire.com/folder/v2oywe1nco7wy" target="_blank" class="btn btn-secondary" style="text-align: center; border-color: #ff4747;">Descargar desde MediaFire</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Survive.infection. Creado para jugar con amigos en vacaciones. No afiliado con Mojang AB.</p>
+    </footer>
+
+    <!-- Vinculo al archivo de JavaScript externo -->
+    <script src="script.js"></script>
+</body>
+</html>

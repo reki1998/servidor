@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survive.infection - Reglas y Metas</title>
+    <!-- Fuente moderna estilo Gaming -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Vinculo al archivo de estilos externos -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Librería SkinView3D para renderizar el personaje en 3D -->
+    <script src="https://unpkg.com/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
+    
+    <style>
+        /* Configuración del fondo por defecto (Cascada Pixelada - Overworld) */
+        body {
+            background-image: url('fondo_normal.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #0b0c0f;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff;
+            transition: background-image 0.6s ease-in-out, background-color 0.6s ease-in-out;
+        }
+
+        /* --- TEMA MCPVP PELIGROSO (ESTILO DAWN CLIENT - NETHER PIXELADO) --- */
+        body.theme-mcpvp {
+            background-image: url('fondo_mcpvp.png') !important;
+            background-color: #1a0000;
+        }
+
+        body.theme-mcpvp .ambient-overlay {
+            background: 
+                radial-gradient(circle at 50% 30%, rgba(255, 0, 0, 0.45) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(120, 0, 0, 0.5) 0%, transparent 50%),
+                linear-gradient(rgba(20, 0, 0, 0.85), rgba(5, 0, 0, 0.98));
+        }
+
+        body.theme-mcpvp .card {
+            border-color: #ff0000 !important;
+            box-shadow: 0 0 35px rgba(255, 0, 0, 0.6), inset 0 0 15px rgba(255, 0, 0, 0.2) !important;
+            background: rgba(20, 0, 0, 0.9) !important;
+        }
+
+        body.theme-mcpvp .section-title {
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Títulos de las tarjetas en Blanco con brillo en modo MCPVP */
+        body.theme-mcpvp .card h3 {
+            color: #ffffff !important;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+        }
+
+        body.theme-mcpvp #skin_container {
+            border-color: #ff0000;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+            background: rgba(35, 0, 0, 0.7);
+        }
+
+        /* EFECTO PULSO ROJO PARA EL BOTÓN CUANDO ESTÁ EN MODO MCPVP */
+        body.theme-mcpvp .btn-save-clan {
+            background-color: #cc0000 !important;
+            border: 1px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
+            50% { box-shadow: 0 0 25px rgba(255, 0, 0, 1); }
+            100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
+        }
+
+        /* Espacio superior */
+        .content-section {
+            padding: 120px 20px 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .rules-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            align-items: stretch;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(255, 71, 71, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.4s ease;
+        }
+
+        /* Títulos de las tarjetas principales en BLANCO para contraste */
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            transition: color 0.3s ease;
+        }
+
+        .goals-subtitle {
+            font-size: 1.15rem;
+            font-weight: 950;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #ffcccc;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(255, 71, 71, 0.4);
+            line-height: 1.5;
+        }
+
+        .card ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .card ul li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .card ul li::before {
+            content: "•";
+            color: #ff4747;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1rem;
+        }
+
+        .card ul li strong {
+            color: #ffffff;
+        }
+
+        .skin-viewer-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skin-viewer-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        #skin_container {
+            width: 100%;
+            height: 350px;
+            border-radius: 8px;
+            background: rgba(10, 10, 15, 0.6);
+            border: 1px solid rgba(255, 71, 71, 0.2);
+            margin-top: 15px;
+            cursor: grab;
+            transition: all 0.4s ease;
+        }
+
+        #skin_container:active {
+            cursor: grabbing;
+        }
+
+        .player-nick-display {
+            color: #ff4747;
+            font-weight: bold;
+        }
+
+        .clan-card {
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .clan-form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .clan-form-group input {
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid #555;
+            background: #111;
+            color: #fff;
+            width: 100%;
+            max-width: 400px;
+            outline: none;
+            text-align: center;
+        }
+
+        .clan-form-group input:focus {
+            border-color: #ff4747;
+            box-shadow: 0 0 10px rgba(255, 71, 71, 0.3);
+        }
+
+        .member-input-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+            justify-content: center;
+        }
+
+        .btn-add-member {
+            background-color: #ff4747;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-add-member:hover {
+            background-color: #e03b3b;
+        }
+
+        .members-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0 25px 0;
+            min-height: 40px;
+        }
+
+        .member-chip {
+            background: rgba(255, 71, 71, 0.2);
+            border: 1px solid #ff4747;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .member-chip span {
+            cursor: pointer;
+            color: #ff8888;
+            font-weight: bold;
+        }
+
+        .member-chip span:hover {
+            color: #fff;
+        }
+
+        .btn-save-clan {
+            background-color: #ff4747;
+            color: #ffffff;
+            padding: 12px 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 71, 71, 0.4);
+            font-size: 1rem;
+        }
+
+        .btn-save-clan:hover {
+            background-color: #e03b3b;
+            transform: translateY(-2px);
+        }
+
+        .clan-display-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(20, 20, 25, 0.8);
+            border-radius: 8px;
+            border: 1px dashed #ff4747;
+            display: none;
+        }
+
+        /* Estilo interactivo para el botón de Discord */
+        .btn-discord {
+            transition: all 0.3s ease !important;
+        }
+        
+        .btn-discord:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.6) !important;
+        }
+
+        @media (max-width: 900px) {
+            .rules-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CANVAS Y OVERLAY DE AMBIENTACIÓN -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="ambient-overlay"></div>
+
+   <header>
+    <a href="index.html" class="logo-container">
+        <img src="creepercito.jpg" alt="Logo Creepercito" class="logo-img">
+        <div class="logo">Survive.infection</div>
+    </a>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="Reglas.html">Reglas y Metas</a></li>
+            <li><a href="descargas.html">Descargas</a></li>
+            <li><a href="https://discord.gg/KRCZfFrRG" target="_blank" rel="noopener noreferrer" class="btn-discord">Discord</a></li>
+        </ul>
+    </nav>
+    </header>
+
+    <!-- SECCIÓN DE CONTENIDO Y CAJAS -->
+    <section class="content-section">
+        
+        <h2 class="section-title" id="mainTitle">Guía de Supervivencia</h2>
+        
+        <!-- PRIMERA FILA: METAS Y PERSONAJE 3D -->
+        <div class="rules-layout">
+            <!-- CAJA DE METAS Y OBJETIVOS -->
+            <div class="card">
+                <h3>🎯 Metas y Objetivos</h3>
+                <p class="goals-subtitle">PARA TRIUNFAR EN ESTE PÁRAMO INFECTADO, DEBERÁS TRAZAR UNA RUTA CLARA:</p>
+                <ul>
+                    <li><strong>Establecer tu Refugio:</strong> Construye una base blindada, mejora la defensa y asegura tus pertenencias para evitar saqueos de otros sobrevivientes.</li>
+                    <li><strong>Equipamiento militar:</strong> Explora zonas peligrosas en busca de materiales raros y equipo avanzado para hacer frente a las amenazas más duras del servidor.</li>
+                    <li><strong>Forjar Alianzas:</strong> Ningún sobreviviente dura demasiado tiempo solo. Únete a otros jugadores, crea clanes y domina las zonas de recursos disputadas.</li>
+                    <li><strong>Dominar el Servidor:</strong> Consigue hacerte un nombre en la comunidad completando los Dungeons, matando jefes o incluso dominando otros clanes.</li>
+                </ul>
+            </div>
+
+            <!-- CAJA DE VISOR 3D DEL PERSONAJE -->
+            <div class="card skin-viewer-card">
+                <h3>👤 Tu Superviviente</h3>
+                <p style="font-size: 0.95rem; color: #aaa; margin-bottom: 5px;">Personaje registrado:</p>
+                <p class="player-nick-display" id="displayNick">Cargando...</p>
+                
+                <canvas id="skin_container"></canvas>
+                
+                <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">💡 Tip: Puedes arrastrar el cursor para rotar tu personaje.</p>
+            </div>
+        </div>
+
+        <!-- SEGUNDA FILA: CAJA INTERACTIVA DE REGISTRO DE CLAN -->
+        <div class="card clan-card">
+            <h3>⚔️ Registro de Clan de Supervivientes</h3>
+            <p style="color: #aaa; margin-bottom: 25px;">¡Forma tu equipo para dominar el servidor! Ingresa el nombre de tu clan y añade a tus compañeros.</p>
+            <p style="font-size: 0.85rem; color: #ffb1b1; margin-bottom: 15px;">💡 <em>Tip: Al hacer clic en "Registrar Clan" también alternarás el modo visual del servidor (Normal / MCPVP Hardcore).</em></p>
+            <p>Si un usuario ya esta en un clan, no puede elegirlo.</p>
+            
+            <div id="clanFormContainer">
+                <div class="clan-form-group">
+                    <input type="text" id="clanName" placeholder="Nombre de tu Clan (ej: LosInfectados)" autocomplete="off">
+                </div>
+
+                <div class="clan-form-group">
+                    <div class="member-input-row">
+                        <input type="text" id="memberName" placeholder="Nick del integrante (ej: Agustin)" autocomplete="off" onkeydown="verificarEnter(event)">
+                        <button type="button" class="btn-add-member" onclick="agregarIntegrante()">+ Añadir</button>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.9rem; color: #ffcccc; margin-top: 10px;">Integrantes agregados:</p>
+                <div class="members-list" id="membersList"></div>
+
+                <!-- Botón de Registrar Clan que ahora guarda el clan Y alterna el tema visual -->
+                <button type="button" class="btn-save-clan" onclick="guardarClanYAlternarTema()">Registrar Clan</button>
+            </div>
+
+            <div class="clan-display-box" id="clanDisplayBox">
+                <h4 style="color: #ff4747; font-size: 1.3rem; margin-bottom: 10px;" id="savedClanTitle"></h4>
+                <p style="color: #ddd; margin-bottom: 10px;">Miembros confirmados:</p>
+                <div class="members-list" id="savedMembersList"></div>
+                <button type="button" class="btn-add-member" style="margin-top: 15px; background: #555;" onclick="editarClan()">✏️ Modificar Clan</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Survive.infection. No afiliado con Mojang AB ni Microsoft.</p>
+    </footer>
+
+    <!-- SCRIPTS INTERACTIVOS -->
+    <script>
+        let skinViewerGlobal = null;
+        let modoActual = 'dawn';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const nickRegistrado = localStorage.getItem('survive_nick_registrado');
+            const nickDisplay = document.getElementById('displayNick');
+
+            const skinUser = nickRegistrado ? nickRegistrado : "Steve";
+            
+            if (nickRegistrado) {
+                nickDisplay.innerText = nickRegistrado;
+            } else {
+                nickDisplay.innerHTML = `Steve <span style="font-size: 0.75rem; color: #ffb1b1;">(Registra tu nick en inicio)</span>`;
+            }
+
+            skinViewerGlobal = new skinview3d.SkinViewer({
+                canvas: document.getElementById('skin_container'),
+                width: 240,
+                height: 320,
+                skin: `https://crafthead.net/skin/${encodeURIComponent(skinUser)}`
+            });
+
+            skinViewerGlobal.fov = 50;
+            skinViewerGlobal.zoom = 0.8;
+            skinViewerGlobal.animation = new skinview3d.WalkingAnimation();
+            skinViewerGlobal.animation.speed = 0.8;
+
+            cargarClanGuardado();
+
+            const temaGuardado = localStorage.getItem('survive_client_theme') || 'dawn';
+            aplicarTema(temaGuardado);
+        });
+
+        function aplicarTema(modo) {
+            modoActual = modo;
+            const body = document.body;
+            const mainTitle = document.getElementById('mainTitle');
+
+            if (modo === 'mcpvp') {
+                body.classList.add('theme-mcpvp');
+                mainTitle.innerText = "¡Suerte superviviente!";
+
+                if (skinViewerGlobal && skinViewerGlobal.animation) {
+                    skinViewerGlobal.animation.speed = 2.0;
+                }
+            } else {
+                body.classList.remove('theme-mcpvp');
+                mainTitle.innerText = "Guía de Supervivencia";
+
+                if (skinViewerGlobal && skinViewerGlobal.animation) {
+                    skinViewerGlobal.animation.speed = 0.8;
+                }
+            }
+
+            localStorage.setItem('survive_client_theme', modo);
+        }
+
+        let listaIntegrantes = [];
+
+        function verificarEnter(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                agregarIntegrante();
+            }
+        }
+
+        function agregarIntegrante() {
+            const input = document.getElementById('memberName');
+            const nombre = input.value.trim();
+
+            if (nombre === "") return;
+
+            if (listaIntegrantes.includes(nombre)) {
+                alert("Ese integrante ya fue añadido a la lista.");
+                return;
+            }
+
+            const clanGuardado = localStorage.getItem('survive_clan_registrado');
+            if (clanGuardado) {
+                const clan = JSON.parse(clanGuardado);
+                const clanEditando = localStorage.getItem('survive_clan_editando');
+                if (clan.nombre !== clanEditando && clan.integrantes.includes(nombre)) {
+                    alert(`⚠️ El usuario "${nombre}" ya pertenece al clan "${clan.nombre}". No puede estar en dos clanes a la vez.`);
+                    return;
+                }
+            }
+
+            listaIntegrantes.push(nombre);
+            input.value = "";
+            renderizarIntegrantes();
+        }
+
+        function eliminarIntegrante(index) {
+            listaIntegrantes.splice(index, 1);
+            renderizarIntegrantes();
+        }
+
+        function renderizarIntegrantes() {
+            const container = document.getElementById('membersList');
+            container.innerHTML = "";
+
+            listaIntegrantes.forEach((miembro, index) => {
+                const chip = document.createElement('div');
+                chip.className = 'member-chip';
+                chip.innerHTML = `${miembro} <span onclick="eliminarIntegrante(${index})">✕</span>`;
+                container.appendChild(chip);
+            });
+        }
+
+        function guardarClanYAlternarTema() {
+            const clanName = document.getElementById('clanName').value.trim();
+
+            if (clanName === "") {
+                alert("Por favor ingresa un nombre para el clan.");
+                return;
+            }
+
+            if (listaIntegrantes.length === 0) {
+                alert("Agrega al menos a un integrante a tu clan.");
+                return;
+            }
+
+            const datosClan = {
+                nombre: clanName,
+                integrantes: listaIntegrantes
+            };
+
+            localStorage.setItem('survive_clan_registrado', JSON.stringify(datosClan));
+            localStorage.removeItem('survive_clan_editando');
+            cargarClanGuardado();
+
+            if (modoActual === 'dawn') {
+                aplicarTema('mcpvp');
+            } else {
+                aplicarTema('dawn');
+            }
+        }
+
+        function cargarClanGuardado() {
+            const clanGuardado = localStorage.getItem('survive_clan_registrado');
+            if (clanGuardado) {
+                const clan = JSON.parse(clanGuardado);
+                document.getElementById('clanFormContainer').style.display = 'none';
+                document.getElementById('clanDisplayBox').style.display = 'block';
+
+                document.getElementById('savedClanTitle').innerText = `🛡️ Clan: ${clan.nombre}`;
+                
+                const membersContainer = document.getElementById('savedMembersList');
+                membersContainer.innerHTML = "";
+                clan.integrantes.forEach(m => {
+                    const chip = document.createElement('div');
+                    chip.className = 'member-chip';
+                    chip.innerText = `👤 ${m}`;
+                    membersContainer.appendChild(chip);
+                });
+            }
+        }
+
+        function editarClan() {
+            const clanGuardado = localStorage.getItem('survive_clan_registrado');
+            if (clanGuardado) {
+                const clan = JSON.parse(clanGuardado);
+                document.getElementById('clanName').value = clan.nombre;
+                listaIntegrantes = [...clan.integrantes];
+                localStorage.setItem('survive_clan_editando', clan.nombre);
+                renderizarIntegrantes();
+            }
+            document.getElementById('clanFormContainer').style.display = 'block';
+            document.getElementById('clanDisplayBox').style.display = 'none';
+        }
+    </script>
+    <!-- Vinculo al archivo de JavaScript externo -->
+    <script src="script.js"></script>
+</body>
+</html>
